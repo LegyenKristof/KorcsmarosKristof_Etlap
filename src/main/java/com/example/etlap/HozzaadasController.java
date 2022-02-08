@@ -40,7 +40,7 @@ public class HozzaadasController extends Controller{
         }
         else{
             try {
-                if (db.ujEtel(nev, leiras, kategoria, ar) == 1) {
+                if (db.ujEtel(nev, leiras, kategoria, ar)) {
                     this.alert("Étel hozzáadása sikeres!");
                 } else {
                     this.alert("Étel hozzáadása sikertelen!");

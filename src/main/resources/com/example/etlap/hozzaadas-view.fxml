@@ -4,6 +4,7 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -12,8 +13,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
-<?import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory?>
 <GridPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.etlap.HozzaadasController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
@@ -27,13 +26,13 @@
             <HBox maxHeight="50.0" minHeight="50.0" prefHeight="50.0" prefWidth="200.0">
                <children>
                   <Label prefWidth="100.0" text="Név" />
-                  <TextField fx:id="textFieldNev" prefWidth="200.0" />
+                  <TextField fx:id="textFieldNev" prefWidth="200.0" promptText="Név" />
                </children>
             </HBox>
             <HBox maxHeight="50.0" minHeight="50.0" prefHeight="50.0" prefWidth="200.0">
                <children>
                   <Label prefWidth="100.0" text="Leírás" />
-                  <TextArea fx:id="textAreaLeiras" prefHeight="200.0" prefWidth="200.0" />
+                  <TextArea fx:id="textAreaLeiras" prefHeight="200.0" prefWidth="200.0" promptText="Leírás" />
                </children>
             </HBox>
             <HBox maxHeight="50.0" minHeight="50.0" prefHeight="50.0" prefWidth="200.0">
@@ -47,7 +46,7 @@
                   <Label prefWidth="100.0" text="Ár" />
                   <Spinner fx:id="spinnerAr" editable="true" prefWidth="200.0">
                      <valueFactory>
-                        <SpinnerValueFactory.IntegerSpinnerValueFactory amountToStepBy="1" min="1" max="999999" />
+                        <SpinnerValueFactory.IntegerSpinnerValueFactory amountToStepBy="1" max="999999" min="1" />
                      </valueFactory>
                   </Spinner>
                </children>

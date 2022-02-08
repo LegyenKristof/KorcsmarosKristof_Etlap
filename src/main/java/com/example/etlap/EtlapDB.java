@@ -18,9 +18,9 @@ public class EtlapDB {
 
     public List<Etel> getEtlap() throws SQLException {
         List<Etel> etlap = new ArrayList<>();
-        Statement stmt = connection.createStatement();
-        String sql = "SELECT * FROM etlap";
-        ResultSet result = stmt.executeQuery(sql);
+        Statement statement = connection.createStatement();
+        String sql = "SELECT * FROM etlap;";
+        ResultSet result = statement.executeQuery(sql);
         while (result.next()) {
             int id = result.getInt("etlap.id");
             String nev = result.getString("etlap.nev");
@@ -33,21 +33,51 @@ public class EtlapDB {
         return etlap;
     }
 
-    public int ujEtel(String nev, String leiras, String kategoria, int ar) throws SQLException {
-        String sql = "INSERT INTO etlap (nev, leiras,  kategoria, ar) VALUES (?, ?, ?, ?)";
-        PreparedStatement stmt = connection.prepareStatement(sql);
-        stmt.setString(1, nev);
-        stmt.setString(2, leiras);
-        stmt.setString(3, kategoria);
-        stmt.setInt(4, ar);
-        return stmt.executeUpdate();
+    public boolean ujEtel(String nev, String leiras, String kategoria, int ar) throws SQLException {
+        String sql = "INSERT INTO etlap (nev, leiras,  kategoria, ar) VALUES (?, ?, ?, ?);";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, nev);
+        statement.setString(2, leiras);
+        statement.setString(3, kategoria);
+        statement.setInt(4, ar);
+        return statement.executeUpdate() == 1;
     }
 
     public boolean deleteEtel(int id) throws SQLException {
-        String sql = "DELETE FROM etlap WHERE id = ?";
-        PreparedStatement stmt = connection.prepareStatement(sql);
-        stmt.setInt(1, id);
-        return stmt.executeUpdate() == 1;
+        String sql = "DELETE FROM etlap WHERE id = ?;";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, id);
+        return statement.executeUpdate() == 1;
+    }
+
+    public boolean aremelesSzazalek(int szazalek, int id) throws SQLException {
+        String sql = "UPDATE etlap SET ar = ar * ? WHERE id = ?;";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setDouble(1, szazalek / 100.0 + 1);
+        statement.setInt(2, id);
+        return statement.executeUpdate() == 1;
+    }
+
+    public boolean aremelesSzazalek(int szazalek) throws SQLException {
+        String sql = "UPDATE etlap SET ar = ar * ?;";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setDouble(1, szazalek / 100.0 + 1);
+        return statement.executeUpdate() == 1;
+    }
+
+    public boolean aremelesFt(int ft, int id) throws SQLException {
+        String sql = "UPDATE etlap SET ar = ar + ? WHERE id = ?;";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, ft);
+        statement.setInt(2, id);
+        return statement.executeUpdate() == 1;
+    }
+
+    public boolean aremelesFt(int ft) throws SQLException {
+        String sql = "UPDATE etlap SET ar = ar + ?;";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, ft);
+        return statement.executeUpdate() == 1;
     }
 
 }

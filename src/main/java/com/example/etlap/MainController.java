@@ -88,4 +88,54 @@ public class MainController extends Controller{
             }
         }
     }
+
+    @FXML
+    public void buttonFt(MouseEvent mouseEvent) {
+        if(tableViewEtlap.getSelectionModel().getSelectedIndex() == -1){
+            if(this.felugro("Biztos szeretné emelni az összes étel árát?")){
+                try {
+                    db.aremelesFt(spinnerFt.getValue());
+                    etlapFeltolt();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        else{
+            String etelNev = tableViewEtlap.getSelectionModel().getSelectedItem().getNev();
+            if(this.felugro("Biztos szeretné emelni a(z) " + etelNev + " étel árát?")){
+                try {
+                    db.aremelesFt(spinnerFt.getValue(), tableViewEtlap.getSelectionModel().getSelectedItem().getId());
+                    etlapFeltolt();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @FXML
+    public void buttonSzazalek(MouseEvent mouseEvent) {
+        if(tableViewEtlap.getSelectionModel().getSelectedIndex() == -1){
+            if(this.felugro("Biztos szeretné emelni az összes étel árát?")){
+                try {
+                    db.aremelesSzazalek(spinnerSzazalek.getValue());
+                    etlapFeltolt();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        else{
+            String etelNev = tableViewEtlap.getSelectionModel().getSelectedItem().getNev();
+            if(this.felugro("Biztos szeretné emelni a(z) " + etelNev + " étel árát?")){
+                try {
+                    db.aremelesSzazalek(spinnerSzazalek.getValue(), tableViewEtlap.getSelectionModel().getSelectedItem().getId());
+                    etlapFeltolt();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }
