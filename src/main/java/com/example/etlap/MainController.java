@@ -1,5 +1,6 @@
 package com.example.etlap;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -32,6 +33,12 @@ public class MainController extends Controller{
     public TableView<Etel> tableViewEtlap;
 
     public EtlapDB db;
+    @FXML
+    public TableView<Kategoria> tableViewKategoriak;
+    @FXML
+    public TableColumn<Kategoria, String> colKategoriak;
+    @FXML
+    public ChoiceBox<Kategoria> choiceBoxSzures;
 
     public void initialize(){
         db = new EtlapDB();
@@ -40,6 +47,11 @@ public class MainController extends Controller{
         colKategoria.setCellValueFactory(new PropertyValueFactory<>("kategoria"));
         colAr.setCellValueFactory(new PropertyValueFactory<>("ar"));
 
+        colKategoriak.setCellValueFactory(new PropertyValueFactory<>("nev"));
+
+
+        kategoriakFeltolt();
+        szuresFeltolt();
         etlapFeltolt();
     }
 
@@ -62,9 +74,44 @@ public class MainController extends Controller{
     public void etlapFeltolt(){
         try {
             tableViewEtlap.getItems().clear();
-            List<Etel> etlap = db.getEtlap();
-            for (Etel etel : etlap){
-                tableViewEtlap.getItems().add(etel);
+            if(choiceBoxSzures.getValue().getId() == -1){
+                List<Etel> etlap = db.getEtlap();
+                for (Etel etel : etlap){
+                    tableViewEtlap.getItems().add(etel);
+                }
+            }
+            else{
+                List<Etel> etlap = db.getEtlapSzurt(choiceBoxSzures.getValue().getNev());
+                for (Etel etel : etlap){
+                    tableViewEtlap.getItems().add(etel);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void kategoriakFeltolt(){
+        try {
+            tableViewKategoriak.getItems().clear();
+            List<Kategoria> kategoriak = db.getKategoriak();
+            for (Kategoria kategoria : kategoriak){
+                tableViewKategoriak.getItems().add(kategoria);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void szuresFeltolt(){
+        try {
+            choiceBoxSzures.getItems().clear();
+            Kategoria osszes = new Kategoria(-1, "Összes");
+            choiceBoxSzures.getItems().add(osszes);
+            choiceBoxSzures.setValue(osszes);
+            List<Kategoria> kategoriak = db.getKategoriak();
+            for (Kategoria kategoria : kategoriak){
+                choiceBoxSzures.getItems().add(kategoria);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -137,5 +184,42 @@ public class MainController extends Controller{
                 }
             }
         }
+    }
+
+    @FXML
+    public void katHozzaadClick(MouseEvent mouseEvent) {
+        try {
+            Controller felvetel = this.ujAblak("kategoriahozzaadas-view.fxml", "Új kategória", 400, 400);
+            felvetel.getStage().setOnCloseRequest(event -> {
+                kategoriakFeltolt();
+                szuresFeltolt();
+            });
+            felvetel.getStage().show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void katTorlesClick(MouseEvent mouseEvent) {
+        if (tableViewKategoriak.getSelectionModel().getSelectedIndex() == -1) {
+            this.alert("Nincs elem megjelölve");
+        }
+        else if (this.felugro("Biztosan törölni szeretné a kategóriát?")) {
+            Kategoria kategoria = tableViewKategoriak.getSelectionModel().getSelectedItem();
+            try {
+                if(db.deleteKategoria(kategoria.getId())){
+                    this.alert("A törlés sikeres");
+                    kategoriakFeltolt();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @FXML
+    public void szuresClick(ActionEvent actionEvent) {
+        etlapFeltolt();
     }
 }
