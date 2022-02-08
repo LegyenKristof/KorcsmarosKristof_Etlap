@@ -26,12 +26,12 @@
    <children>
       <HBox alignment="CENTER_LEFT" maxHeight="45.0" minHeight="45.0" prefHeight="45.0" prefWidth="200.0">
          <children>
-            <Button mnemonicParsing="false" text="Új étel felvétele">
+            <Button mnemonicParsing="false" onMouseClicked="#ujClick" text="Új étel felvétele">
                <HBox.margin>
                   <Insets right="20.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Törlés" />
+            <Button mnemonicParsing="false" onMouseClicked="#torlesClick" text="Törlés" />
          </children>
          <GridPane.margin>
             <Insets bottom="10.0" left="20.0" right="20.0" top="20.0" />
@@ -79,7 +79,7 @@
          <GridPane.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
          </GridPane.margin></TitledPane>
-      <TableView fx:id="tableViewEtlap" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+      <TableView fx:id="tableViewEtlap" onMouseClicked="#etelClick" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
         <columns>
           <TableColumn fx:id="colNev" prefWidth="164.0" text="Név" />
           <TableColumn fx:id="colKategoria" minWidth="0.0" prefWidth="120.0" text="Kategória" />
@@ -89,7 +89,7 @@
             <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
          </GridPane.margin>
       </TableView>
-      <Label fx:id="labelLeiras" text="Label" GridPane.rowIndex="3">
+      <Label fx:id="labelLeiras" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
          </GridPane.margin>

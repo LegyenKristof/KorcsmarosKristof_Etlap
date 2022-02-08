@@ -33,4 +33,21 @@ public class EtlapDB {
         return etlap;
     }
 
+    public int ujEtel(String nev, String leiras, String kategoria, int ar) throws SQLException {
+        String sql = "INSERT INTO etlap (nev, leiras,  kategoria, ar) VALUES (?, ?, ?, ?)";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setString(1, nev);
+        stmt.setString(2, leiras);
+        stmt.setString(3, kategoria);
+        stmt.setInt(4, ar);
+        return stmt.executeUpdate();
+    }
+
+    public boolean deleteEtel(int id) throws SQLException {
+        String sql = "DELETE FROM etlap WHERE id = ?";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setInt(1, id);
+        return stmt.executeUpdate() == 1;
+    }
+
 }
