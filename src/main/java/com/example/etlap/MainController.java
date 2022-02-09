@@ -63,7 +63,7 @@ public class MainController extends Controller{
     @FXML
     public void ujClick(MouseEvent mouseEvent) {
         try {
-            Controller felvetel = this.ujAblak("hozzaadas-view.fxml", "Új étel", 400, 400);
+            Controller felvetel = this.ujAblak("hozzaadas-view.fxml", "Új étel", 245, 260);
             felvetel.getStage().setOnCloseRequest(event -> etlapFeltolt());
             felvetel.getStage().show();
         } catch (IOException e) {
@@ -74,7 +74,7 @@ public class MainController extends Controller{
     public void etlapFeltolt(){
         try {
             tableViewEtlap.getItems().clear();
-            if(choiceBoxSzures.getValue().getId() == -1){
+            if(choiceBoxSzures.getSelectionModel().getSelectedIndex() == -1 || choiceBoxSzures.getValue().getId() == -1){
                 List<Etel> etlap = db.getEtlap();
                 for (Etel etel : etlap){
                     tableViewEtlap.getItems().add(etel);
@@ -189,10 +189,10 @@ public class MainController extends Controller{
     @FXML
     public void katHozzaadClick(MouseEvent mouseEvent) {
         try {
-            Controller felvetel = this.ujAblak("kategoriahozzaadas-view.fxml", "Új kategória", 400, 400);
+            Controller felvetel = this.ujAblak("kategoriahozzaadas-view.fxml", "Új kategória", 220, 80);
             felvetel.getStage().setOnCloseRequest(event -> {
-                kategoriakFeltolt();
                 szuresFeltolt();
+                kategoriakFeltolt();
             });
             felvetel.getStage().show();
         } catch (IOException e) {
@@ -211,6 +211,7 @@ public class MainController extends Controller{
                 if(db.deleteKategoria(kategoria.getId())){
                     this.alert("A törlés sikeres");
                     kategoriakFeltolt();
+                    szuresFeltolt();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
